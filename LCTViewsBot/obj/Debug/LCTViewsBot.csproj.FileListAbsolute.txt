@@ -1,1 +1,6 @@
 C:\Users\ILUXONCHIK\Documents\GitHub\LCTViewsBot\LCTViewsBot\bin\Debug\LCTViewsBot.exe.config
+C:\Users\ILUXONCHIK\Documents\GitHub\LCTViewsBot\LCTViewsBot\bin\Debug\LCTViewsBot.exe
+C:\Users\ILUXONCHIK\Documents\GitHub\LCTViewsBot\LCTViewsBot\bin\Debug\LCTViewsBot.pdb
+C:\Users\ILUXONCHIK\Documents\GitHub\LCTViewsBot\LCTViewsBot\obj\Debug\LCTViewsBot.csprojResolveAssemblyReference.cache
+C:\Users\ILUXONCHIK\Documents\GitHub\LCTViewsBot\LCTViewsBot\obj\Debug\LCTViewsBot.exe
+C:\Users\ILUXONCHIK\Documents\GitHub\LCTViewsBot\LCTViewsBot\obj\Debug\LCTViewsBot.pdb
