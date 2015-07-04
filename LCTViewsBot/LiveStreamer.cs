@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,11 +9,14 @@ using System.Threading.Tasks;
 namespace LCTViewsBot
 {
 
-    class LiveStreamer 
+    class LiveStreamer : IDisposable
     {
+        private string TempFilePath { get; set; }
         private const string WRITING_TO_OUT_MSG = "[cli][debug] Writing stream to output";
-        private const string DEFAULT_ARGS = "worst -o deleteme -f -l debug";
+        private const string DEFAULT_ARGS = "worst -l debug";
         private const string DEFAULT_EXEC_PATH = @"C:\Program Files (x86)\Livestreamer\livestreamer.exe";
+        private const string LIVESTREAMER_FORCE_OPT = "-f";
+        private const string LIVESTREAMER_OUTPUT_OPT = "-o";
 
         public string Args { get; set; }
         public ProcessStartInfo PStartInfo { get; set; }
@@ -23,7 +27,9 @@ namespace LCTViewsBot
                 processFileName = DEFAULT_EXEC_PATH;
             }
 
-            Args = rtmpURL + " " + DEFAULT_ARGS + args;
+            TempFilePath = Path.GetTempFileName();
+
+            Args = rtmpURL + " " + DEFAULT_ARGS + " " + LIVESTREAMER_OUTPUT_OPT + " " + TempFilePath + " " + LIVESTREAMER_FORCE_OPT + " " + args;
             PStartInfo = BuildProcessStartInfo(processFileName, Args);
         }
 
@@ -70,5 +76,38 @@ namespace LCTViewsBot
                 UseShellExecute = false
             };
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                if (TempFilePath != null)
+                {
+                    File.Delete(TempFilePath);
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        ~LiveStreamer()
+        {
+            Dispose(false);
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

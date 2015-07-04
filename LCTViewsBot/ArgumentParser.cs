@@ -8,13 +8,15 @@ namespace LCTViewsBot
 {
     class ArgumentParser
     {
+        const int DEFAULT_THREADS_NUMBER = 10;
         public string Username { get; set; }
         public string ExtraArgs { get; set; }
         public int NumThreads { get; set; }
         public string ExecutablePath { get; set; }
-
         public ArgumentParser(string[] args)
         {
+            NumThreads = DEFAULT_THREADS_NUMBER;
+
             if (args.Length < 1)
             {
                 throw new ArgumentException("At least username required as an argument.");

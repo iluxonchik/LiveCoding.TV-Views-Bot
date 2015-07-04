@@ -12,7 +12,7 @@ namespace LCTViewsBot
         {
            ArgumentParser ap = new ArgumentParser(arg);
            LiveStreamer livestreamer = new LiveStreamer(new RTMPParser(ap.Username).ParseRTMPAddress(), ap.ExtraArgs, ap.ExecutablePath);
-           livestreamer.Run(1);
+           livestreamer.Run(ap.NumThreads);
             
         }
     }
