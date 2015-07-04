@@ -28,6 +28,7 @@ namespace LCTViewsBot
             }
 
             TempFilePath = Path.GetTempFileName();
+           
 
             Args = rtmpURL + " " + DEFAULT_ARGS + " " + LIVESTREAMER_OUTPUT_OPT + " " + TempFilePath + " " + LIVESTREAMER_FORCE_OPT + " " + args;
             PStartInfo = BuildProcessStartInfo(processFileName, Args);
@@ -43,15 +44,15 @@ namespace LCTViewsBot
                 tasks[i] = Task.Factory.StartNew(() =>
                 {
                     Process p = new Process() { StartInfo = PStartInfo };
+                    p.OutputDataReceived += Process_OutputDataReceived;
                     p.Start();
                     p.BeginOutputReadLine();
-                    p.OutputDataReceived += Process_OutputDataReceived;
+                    
                     p.WaitForExit();
                 });
 
                 Console.WriteLine("Starting thread {0}", i);
             }
-            
             Task.WaitAll(tasks);
 
         }
@@ -59,7 +60,7 @@ namespace LCTViewsBot
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             Console.WriteLine(e.Data);
-            if(e.Data == WRITING_TO_OUT_MSG)
+            if (e.Data == WRITING_TO_OUT_MSG)
             {
                 ((Process)sender).Kill();
             }

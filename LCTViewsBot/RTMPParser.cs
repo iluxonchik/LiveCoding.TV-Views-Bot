@@ -11,18 +11,26 @@ namespace LCTViewsBot
 {
     class RTMPParser
     {
-        private const string LIVECODING_TV_URL = "https://livecoding.tv/";
+
+        private const string RTMP_START = "rtmp://";
         private const string TOKEN_PATTERN = "rtmp://(.*)\"";
-        public string Username { get; set; }
-        public RTMPParser(string username)
+        public string Url { get; set; }
+
+        public RTMPParser(string url)
         {
-            Username = username;
+            Url= url;
+            Console.WriteLine(url);
         }
 
         public string ParseRTMPAddress()
         {
+            if (Url.StartsWith(RTMP_START))
+            {
+                return Url;
+            }
+
             Regex regex = new Regex(TOKEN_PATTERN);
-            Match m = regex.Match(GetUrlContent(LIVECODING_TV_URL + Username));
+            Match m = regex.Match(GetUrlContent(Url));
             return m.Value.Substring(0, m.Value.Length - 1);
         }
 
