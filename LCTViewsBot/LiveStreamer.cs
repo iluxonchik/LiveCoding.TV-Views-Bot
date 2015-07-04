@@ -7,16 +7,23 @@ using System.Threading.Tasks;
 
 namespace LCTViewsBot
 {
+
     class LiveStreamer 
     {
-        const string WRITING_TO_OUT_MSG = "[cli][debug] Writing stream to output";
-        const string DEFAULT_ARGS = "worst -o deleteme -f -l debug";
+        private const string WRITING_TO_OUT_MSG = "[cli][debug] Writing stream to output";
+        private const string DEFAULT_ARGS = "worst -o deleteme -f -l debug";
+        private const string DEFAULT_EXEC_PATH = @"C:\Program Files (x86)\Livestreamer\livestreamer.exe";
 
         public string Args { get; set; }
         public ProcessStartInfo PStartInfo { get; set; }
-        public LiveStreamer(string rtmpURL, string args = DEFAULT_ARGS, string processFileName = @"C:\Program Files (x86)\Livestreamer\livestreamer.exe")
+        public LiveStreamer(string rtmpURL, string args, string processFileName = DEFAULT_EXEC_PATH)
         {
-            Args = rtmpURL + " " + args;
+            if (processFileName == null)
+            {
+                processFileName = DEFAULT_EXEC_PATH;
+            }
+
+            Args = rtmpURL + " " + DEFAULT_ARGS + args;
             PStartInfo = BuildProcessStartInfo(processFileName, Args);
         }
 
@@ -40,6 +47,7 @@ namespace LCTViewsBot
             }
             
             Task.WaitAll(tasks);
+
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
