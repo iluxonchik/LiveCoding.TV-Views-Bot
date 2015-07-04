@@ -31,6 +31,8 @@ namespace LCTViewsBot
 
             Regex regex = new Regex(TOKEN_PATTERN);
             Match m = regex.Match(GetUrlContent(Url));
+            if (m.Length == 0)
+                throw new RTMPUrlNotFoundException();
             return m.Value.Substring(0, m.Value.Length - 1);
         }
 
