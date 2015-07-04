@@ -4,21 +4,21 @@ using System.Runtime.Serialization;
 namespace LCTViewsBot
 {
     [Serializable]
-    internal class RTMPUrlNotFoundException : Exception
+    internal class RTMPAddressNotFoundException : Exception
     {
-        public RTMPUrlNotFoundException()
+        public RTMPAddressNotFoundException()
         {
         }
 
-        public RTMPUrlNotFoundException(string message) : base(message)
+        public RTMPAddressNotFoundException(string message) : base(message)
         {
         }
 
-        public RTMPUrlNotFoundException(string message, Exception innerException) : base(message, innerException)
+        public RTMPAddressNotFoundException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        protected RTMPUrlNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected RTMPAddressNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
