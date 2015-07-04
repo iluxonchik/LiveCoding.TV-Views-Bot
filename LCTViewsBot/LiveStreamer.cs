@@ -13,7 +13,7 @@ namespace LCTViewsBot
     {
         private string TempFilePath { get; set; }
         private const string WRITING_TO_OUT_MSG = "[cli][debug] Writing stream to output";
-        private const string DEFAULT_ARGS = "worst -l debug --rtmp-timeout 10";
+        private const string DEFAULT_ARGS = "worst -l debug --rtmp-timeout";
         private const string DEFAULT_EXEC_PATH = @"C:\Program Files (x86)\Livestreamer\livestreamer.exe";
         private const string LIVESTREAMER_FORCE_OPT = "-f";
         private const string LIVESTREAMER_OUTPUT_OPT = "-o";
@@ -22,7 +22,7 @@ namespace LCTViewsBot
 
         public string Args { get; set; }
         public ProcessStartInfo PStartInfo { get; set; }
-        public LiveStreamer(string rtmpURL, string args, string processFileName = DEFAULT_EXEC_PATH)
+        public LiveStreamer(string rtmpURL, string args, int rtmpTimeout, string processFileName = DEFAULT_EXEC_PATH)
         {
             if (processFileName == null)
             {
@@ -32,13 +32,18 @@ namespace LCTViewsBot
             TempFilePath = Path.GetTempFileName();
            
 
-            Args = rtmpURL + " " + DEFAULT_ARGS + " " + LIVESTREAMER_OUTPUT_OPT + " " + TempFilePath + " " + LIVESTREAMER_FORCE_OPT + " " + args;
+            Args = rtmpURL + " " + DEFAULT_ARGS + " " + rtmpTimeout + " " + LIVESTREAMER_OUTPUT_OPT + " " + TempFilePath + " " + LIVESTREAMER_FORCE_OPT + " " + args;
+            Console.WriteLine(Args);
             PStartInfo = BuildProcessStartInfo(processFileName, Args);
         }
 
         public void Run(int numThreads, int threadsPerRun = DEFAULT_NUM_THREADS_PER_RUN)
         {
-            
+            if (threadsPerRun < 1)
+            {
+                throw new ArgumentOutOfRangeException("Threads per run must be greater than zero.");
+            }
+
             int numRuns = (numThreads + threadsPerRun - 1) / threadsPerRun;
 
             Process[] processes = new Process[threadsPerRun];
